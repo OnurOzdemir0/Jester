@@ -76,7 +76,7 @@ public class CharacterController_ : MonoBehaviour
         mousedir = playerCam.ScreenToWorldPoint(mousedir);
      
 
-        Ray ray = new Ray(playerCam.transform.position, mousedir);
+        Ray ray = new Ray(playerCam.transform.position, playerCam.transform.forward);
         //Debug.Log("origin :" + ray.origin + " dir : " + mousedir);
         Debug.DrawRay(ray.origin,ray.direction*10000,Color.red,1);
 
