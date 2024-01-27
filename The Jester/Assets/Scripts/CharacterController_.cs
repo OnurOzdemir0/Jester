@@ -1,4 +1,5 @@
 using Cinemachine;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -18,6 +19,10 @@ public class CharacterController_ : MonoBehaviour
 
     [SerializeField] int rayRadius = 5;
 
+
+    private bool canMove  =true;
+    private bool canDetectCard= false;
+
     // shoot ray to detect card
 
     // reverse card
@@ -33,36 +38,53 @@ public class CharacterController_ : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        shootRayIntoMouseDirection(); // always shoot 
-
+        if (canDetectCard)
+        {
+            shootRayIntoMouseDirection(); // always shoot 
+        }
+       
+        
        
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Game Start"))
+        {
+            canMove = false;
+            transform.DOMove(new Vector3( other.gameObject.transform.position.x , transform.position.y, other.gameObject.transform.position.z), 1);
+            canDetectCard = true;
+        }
+    }
+   
 
     private void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3 (-1*horizontal,0 , -1*vertical).normalized;
-        if (virtualCamera)
+        if (canMove)
         {
-            if (direction.magnitude > 0)
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            Vector3 direction = new Vector3(-1 * horizontal, 0, -1 * vertical).normalized;
+            if (virtualCamera)
             {
-                virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 5;
+                if (direction.magnitude > 0)
+                {
+                    virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 5;
+                }
+                else
+                {
+                    virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 1;
+                }
             }
-            else
+            if (controller)
             {
-                virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 1;
+                controller.Move(direction * speed * Time.deltaTime);
             }
-        }
-        if (controller)
-        {
-            controller.Move(direction * speed * Time.deltaTime);
+
         }
 
-       
 
-        if(Input.GetMouseButtonDown(0))
+
+        if (Input.GetMouseButtonDown(0))
         {
             if(currentCard != null)
             {
@@ -170,9 +192,13 @@ public class CharacterController_ : MonoBehaviour
 
             }
             else
-            {
-                currentCard.highlightCard(false);
-                currentCard = null;
+            {   
+                if(currentCard != null)
+                {
+                    currentCard.highlightCard(false);
+                    currentCard = null;
+                }
+               
                 
             }
 

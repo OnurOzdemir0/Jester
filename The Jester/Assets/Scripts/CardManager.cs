@@ -32,6 +32,7 @@ public class CardManager : MonoBehaviour
         ResizeHand();
     }
 
+
     private void ResizeHand(){
         for (int i = 0; i < cards.Count; i++)
         {

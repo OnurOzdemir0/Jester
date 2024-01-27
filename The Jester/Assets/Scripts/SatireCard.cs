@@ -16,7 +16,7 @@ public class SatireCard : Card
             // transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z-5), 0.5f);
             CardManager.instance.RemoveCard(this);
 
-            GameLogic._logicInstance.handleAttack(1); //1 for index of the joke list index in GameLogic
+            GameLogic._logicInstance.handleAttack(GameLogic.MoodType.SAT); //1 for index of the joke list index in GameLogic
 
             Destroy(this.gameObject, 0.5f);
         }
