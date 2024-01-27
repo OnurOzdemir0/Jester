@@ -15,6 +15,7 @@ public class SatireCard : Card
             isPlayed = true;
             transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z+5), 0.5f);
             CardManager.instance.RemoveCard(this);
+            Destroy(this.gameObject, 0.5f);
         }
     }
     
