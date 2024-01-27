@@ -87,40 +87,73 @@ public class CharacterController_ : MonoBehaviour
      
         Ray ray = new Ray(playerCam.transform.position, playerCam.transform.forward);
         //Debug.Log("origin :" + ray.origin + " dir : " + mousedir);
-        Debug.DrawRay(ray.origin,ray.direction*10000,Color.red,1);
+        Debug.DrawRay(ray.origin,ray.direction*1000,Color.red,1);
 
-       
+
+        Dictionary<Collider, int> keyValuePairs = new Dictionary<Collider, int>();
+
+
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+        {
+
+            if (keyValuePairs.TryGetValue(hit.collider, out int val))
+            {
+
+                keyValuePairs[hit.collider] = val++;
+
+            }
+            else
+            {
+                keyValuePairs.Add(hit.collider, 1);
+            }
+
+        }
 
         for (int i = 0; i< playerCam.transform.childCount;i++)
         {
             Transform child = playerCam.transform.GetChild(i);
+            Debug.Log(child.forward);
             
             Ray newRay= new Ray(child.position,child.forward);
 
             RaycastHit myHit;
-            Dictionary<int,int> keyValuePairs = new Dictionary<int,int>();
+            
             if (Physics.Raycast(ray, out myHit, Mathf.Infinity))
             {
-                int val;
-               if(keyValuePairs.TryGetValue(myHit.colliderInstanceID, out val)) { 
-                
+                Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 1);
+                if (keyValuePairs.TryGetValue(myHit.collider, out int val)) {
 
+                    keyValuePairs[myHit.collider] = val++;
 
                 }
-
-
+                else
+                {
+                    keyValuePairs.Add(myHit.collider, 1);
+                }
 
             }
 
 
         }
+        Collider maximumCollided = null;
+        int max = 0;
+        foreach( Collider collider in keyValuePairs.Keys ) {
+
+            int val = keyValuePairs[collider];
+            if(val > max)
+            {
+                max = val;
+                maximumCollided = collider;
+            }
+
+      
+        }
+        
 
 
-
-
-        if(Physics.Raycast(ray,out RaycastHit hit,Mathf.Infinity)){
+        if(maximumCollided){
             // Debug.Log("Card found");
-            if (hit.collider.gameObject.TryGetComponent<Card>(out Card card))
+            if (maximumCollided.gameObject.TryGetComponent<Card>(out Card card))
             {
                 if(currentCard == null)
                 {
