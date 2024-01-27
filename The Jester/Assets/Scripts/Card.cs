@@ -43,7 +43,7 @@ public abstract class Card : MonoBehaviour
             if(!isHighlighted)
             {
                 isHighlighted = true;
-                transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z-1f);
+                transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z+1f);
                 transform.DOMove(new Vector3(transform.position.x, initialPos.y + 1, transform.position.z), 0.5f);
                 
 

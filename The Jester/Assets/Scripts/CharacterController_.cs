@@ -15,6 +15,9 @@ public class CharacterController_ : MonoBehaviour
 
     [SerializeField]  private float speed;
 
+
+    [SerializeField] int rayRadius = 5;
+
     // shoot ray to detect card
 
     // reverse card
@@ -82,10 +85,38 @@ public class CharacterController_ : MonoBehaviour
         Vector3  mousedir =  new Vector3 (Input.mousePosition.x, Input.mousePosition.y, transform.position.z + playerCam.nearClipPlane) ;
         mousedir = playerCam.ScreenToWorldPoint(mousedir);
      
-
         Ray ray = new Ray(playerCam.transform.position, playerCam.transform.forward);
         //Debug.Log("origin :" + ray.origin + " dir : " + mousedir);
         Debug.DrawRay(ray.origin,ray.direction*10000,Color.red,1);
+
+       
+
+        for (int i = 0; i< playerCam.transform.childCount;i++)
+        {
+            Transform child = playerCam.transform.GetChild(i);
+            
+            Ray newRay= new Ray(child.position,child.forward);
+
+            RaycastHit myHit;
+            Dictionary<int,int> keyValuePairs = new Dictionary<int,int>();
+            if (Physics.Raycast(ray, out myHit, Mathf.Infinity))
+            {
+                int val;
+               if(keyValuePairs.TryGetValue(myHit.colliderInstanceID, out val)) { 
+                
+
+
+                }
+
+
+
+            }
+
+
+        }
+
+
+
 
         if(Physics.Raycast(ray,out RaycastHit hit,Mathf.Infinity)){
             // Debug.Log("Card found");

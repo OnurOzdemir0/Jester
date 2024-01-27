@@ -22657,7 +22657,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a630e5018c54a1e448b31a4d11b09711,
         type: 3}
       propertyPath: m_Name
-      value: f06520904abe4a668ac34e10b28d6b47
+      value: giyotin
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -42153,7 +42153,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 180.2
-  m_Range: 10
+  m_Range: 13.0370245
   m_SpotAngle: 57.826447
   m_InnerSpotAngle: 54.92954
   m_CookieSize: 10
@@ -42211,7 +42211,7 @@ Transform:
   m_GameObject: {fileID: 1854470709}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 7.9594297, y: 7.25, z: 17.86}
+  m_LocalPosition: {x: 7.9594297, y: 10.4, z: 17.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48493,6 +48493,56 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1407587486}
   m_SourcePrefab: {fileID: 100100000, guid: a0ffc3f89f6564d4db93360de7c64c43, type: 3}
+--- !u!1 &2123316027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2123316029}
+  - component: {fileID: 2123316028}
+  m_Layer: 0
+  m_Name: CardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2123316028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123316027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5060d6d8ebf62f47aea6910559e5ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PhysicalCardPrefab: {fileID: 3858465326718710155, guid: 8697e4b35d2f215408d33acaff3fc110,
+    type: 3}
+  SatireCardPrefab: {fileID: 7216591529776095008, guid: 88c5445a5f0a2954bb5231bc6e0207af,
+    type: 3}
+  WordplayCardPrefab: {fileID: 2595846119016728520, guid: b9b5500c545d2304db3c78b2a230e746,
+    type: 3}
+--- !u!4 &2123316029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123316027}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.68, y: 2.79, z: 17.21}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2125281881 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 457682, guid: a0ffc3f89f6564d4db93360de7c64c43,
@@ -49145,3 +49195,4 @@ SceneRoots:
   - {fileID: 718778859}
   - {fileID: 101902794}
   - {fileID: 1026574118}
+  - {fileID: 2123316029}

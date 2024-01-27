@@ -29,19 +29,6 @@ public class CardManager : MonoBehaviour
     public void AddCard(Card card){
         cards.Add(card);
 
-        switch (card.cardType)
-        {
-            case Card.CardType.Physical:
-                _cardPrefab = PhysicalCardPrefab;
-                break;
-            case Card.CardType.Satire:
-                _cardPrefab = SatireCardPrefab;
-                break;
-            case Card.CardType.Wordplay:
-                _cardPrefab = WordplayCardPrefab;
-                break;
-        }
-
         ResizeHand();
     }
 
@@ -50,31 +37,33 @@ public class CardManager : MonoBehaviour
         {
             float distance_x = 1.1f; //distance per card
             float distance_z = 0.05f; 
-            cards[i].transform.position = new Vector3(
-                distance_x * i - cards.Count * distance_x / 2, 
-                -1.78f, 
-                5f - distance_z * i); 
+            cards[i].transform.localPosition = new Vector3(
+                (distance_x * i - cards.Count * distance_x / 2)*-1, 
+                -2.2f, 
+                (5f - distance_z * i)*-1); 
 
-            cards[i].transform.rotation = Quaternion.Euler(0, 180, 90);
+            cards[i].transform.rotation = Quaternion.Euler(0, 0, 90);
         }
         
     }
 
     public void RemoveCard(Card card){
-        cards.Remove(card);
+        
         ResizeHand();
     }
 
     void Awake()
     {
-        AddCard(Instantiate(PhysicalCardPrefab).GetComponent<Card>());
-        AddCard(Instantiate(SatireCardPrefab).GetComponent<Card>());
-        AddCard(Instantiate(WordplayCardPrefab).GetComponent<Card>());
-        AddCard(Instantiate(PhysicalCardPrefab).GetComponent<Card>());
-        AddCard(Instantiate(SatireCardPrefab).GetComponent<Card>());
-        AddCard(Instantiate(WordplayCardPrefab).GetComponent<Card>());
-        AddCard(Instantiate(PhysicalCardPrefab).GetComponent<Card>());
-        AddCard(Instantiate(SatireCardPrefab).GetComponent<Card>());
+        GameObject physicalCardPrefab = Instantiate(PhysicalCardPrefab, transform.position, Quaternion.identity,transform);
+
+        AddCard(physicalCardPrefab.GetComponent<PhysicalJokeCard>()); //.GetComponent<Card>());
+
+        GameObject satire = Instantiate(SatireCardPrefab, transform.position, Quaternion.identity, transform);
+        AddCard(satire.GetComponent<SatireCard>()); //.GetComponent<Card>());
+
+        GameObject word = Instantiate(WordplayCardPrefab, transform.position, Quaternion.identity, transform);
+        AddCard(word.GetComponent<WordPlayCard>()); //.GetComponent<Card>());
+
     }    
 
 }

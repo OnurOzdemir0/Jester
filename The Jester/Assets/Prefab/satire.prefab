@@ -60,6 +60,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 070bd19ce47ca014583fbcd8b55f3ef8,
         type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 070bd19ce47ca014583fbcd8b55f3ef8,
+        type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 070bd19ce47ca014583fbcd8b55f3ef8,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a2dfaa1d494b4424bac35bce20ff0386, type: 2}
@@ -99,6 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fade04e8905517488afa4d387697a29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardType: 0
 --- !u!65 &9178782663338746251
 BoxCollider:
   m_ObjectHideFlags: 0
