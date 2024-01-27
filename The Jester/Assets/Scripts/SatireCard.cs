@@ -13,8 +13,11 @@ public class SatireCard : Card
         if(!this.isPlayed)
         {
             isPlayed = true;
-            transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z+5), 0.5f);
+            // transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z-5), 0.5f);
             CardManager.instance.RemoveCard(this);
+
+            GameLogic._logicInstance.handleAttack(1); //1 for index of the joke list index in GameLogic
+
             Destroy(this.gameObject, 0.5f);
         }
     }

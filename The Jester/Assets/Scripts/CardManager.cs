@@ -44,11 +44,10 @@ public class CardManager : MonoBehaviour
 
             cards[i].transform.rotation = Quaternion.Euler(0, 0, 90);
         }
-        
     }
 
     public void RemoveCard(Card card){
-        
+        cards.Remove(card);
         ResizeHand();
     }
 
