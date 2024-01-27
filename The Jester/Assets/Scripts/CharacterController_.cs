@@ -1,15 +1,19 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class CharacterController : MonoBehaviour
+public class CharacterController_ : MonoBehaviour
 {
     [SerializeField] private Camera playerCam;
 
     private Card currentCard = null;
- 
 
+    private float walkSpeed;
 
+    [SerializeField]  private float speed;
 
     // shoot ray to detect card
 
@@ -17,13 +21,37 @@ public class CharacterController : MonoBehaviour
 
     // play card
 
+    [SerializeField] CharacterController controller;
+
+    [SerializeField] CinemachineVirtualCamera virtualCamera;
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     private void FixedUpdate()
     {
         shootRayIntoMouseDirection(); // always shoot 
+
+       
     }
+
 
     private void Update()
     {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 direction = new Vector3 (-1*horizontal,0 , -1*vertical).normalized;
+
+        if(direction.magnitude > 0) {
+            virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 5;
+        }
+        else
+        {
+            virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 1;
+        }
+
+        controller.Move(direction * speed * Time.deltaTime);
+
         if(Input.GetMouseButtonDown(0))
         {
             if(currentCard != null)
@@ -89,7 +117,6 @@ public class CharacterController : MonoBehaviour
     }
 
     
-
 
 
 }

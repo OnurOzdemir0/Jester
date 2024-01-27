@@ -12,11 +12,15 @@ public abstract class Card : MonoBehaviour
     protected bool isPlayed = false;
     private Vector3 initialPos;
     private Vector3 initialLocalRot;
+
     public enum CardType
     {
         Physical, Satire, Wordplay
     }
     public CardType cardType;
+
+    private Material material;
+
     
     private enum FaceDir
     {
@@ -28,6 +32,7 @@ public abstract class Card : MonoBehaviour
     {
         initialPos = transform.position;
         initialLocalRot = transform.localRotation.eulerAngles;
+        material = GetComponent<Material>();
     }
 
    
@@ -40,6 +45,7 @@ public abstract class Card : MonoBehaviour
                 isHighlighted = true;
                 transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z-1f);
                 transform.DOMove(new Vector3(transform.position.x, initialPos.y + 1, transform.position.z), 0.5f);
+                
 
 
             }
