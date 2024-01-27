@@ -41,10 +41,10 @@ public abstract class Card : MonoBehaviour
         else
         {
             if(isHighlighted)
-            {
+            {   
                 isHighlighted = false;
                 transform.position = new Vector3(transform.position.x, transform.position.y,initialPos.z);
-                transform.DOMove(new Vector3(transform.position.x, initialPos.y, transform.position.z), 0.5f);
+                transform.DOMove(new Vector3(transform.position.x, initialPos.y, transform.position.z), 0.5f).onComplete = resetCardRotation;
             }
            
 
@@ -52,6 +52,17 @@ public abstract class Card : MonoBehaviour
             
         }
         // card highlight is same in every card
+    }
+    private void resetCardRotation()
+    {
+        switch (faceDir)
+        {
+            
+            case FaceDir.BackFace:
+                faceDir = FaceDir.FrontFace;
+                transform.DOLocalRotate(new Vector3(transform.localRotation.eulerAngles.x, initialLocalRot.y, transform.localRotation.eulerAngles.z), 0.5f); break;
+                // reverse
+        }
     }
     public void reverseCard()
     {

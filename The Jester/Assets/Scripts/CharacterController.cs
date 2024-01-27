@@ -24,7 +24,7 @@ public class CharacterController : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButton(0))
+        if(Input.GetMouseButtonDown(0))
         {
             if(currentCard != null)
             {
@@ -33,7 +33,7 @@ public class CharacterController : MonoBehaviour
 
 
         }
-        if(Input.GetMouseButton(1))
+        if(Input.GetMouseButtonDown(1))
         {
             if(currentCard != null)
             {
