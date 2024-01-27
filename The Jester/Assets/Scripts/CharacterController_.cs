@@ -41,16 +41,23 @@ public class CharacterController_ : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3 (-1*horizontal,0 , -1*vertical).normalized;
-
-        if(direction.magnitude > 0) {
-            virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 5;
-        }
-        else
+        if (virtualCamera)
         {
-            virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 1;
+            if (direction.magnitude > 0)
+            {
+                virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 5;
+            }
+            else
+            {
+                virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 1;
+            }
+        }
+        if (controller)
+        {
+            controller.Move(direction * speed * Time.deltaTime);
         }
 
-        controller.Move(direction * speed * Time.deltaTime);
+       
 
         if(Input.GetMouseButtonDown(0))
         {
