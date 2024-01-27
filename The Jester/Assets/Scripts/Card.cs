@@ -4,13 +4,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public abstract class Card : MonoBehaviour
 {
     private bool isHighlighted = false;
-    private bool isPLayed = false;
+    protected bool isPlayed = false;
     private Vector3 initialPos;
     private Vector3 initialLocalRot;
-    
+    public enum CardType
+    {
+        Physical, Satire, Wordplay
+    }
+    public CardType cardType;
     
     private enum FaceDir
     {
@@ -32,7 +38,7 @@ public abstract class Card : MonoBehaviour
             if(!isHighlighted)
             {
                 isHighlighted = true;
-                transform.position = new Vector3 (transform.position.x, transform.position.y, 4.95f);
+                transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z-1f);
                 transform.DOMove(new Vector3(transform.position.x, initialPos.y + 1, transform.position.z), 0.5f);
 
 
@@ -81,6 +87,6 @@ public abstract class Card : MonoBehaviour
         }
     }
 
-    public abstract void playCard(); // every card implement this differently so handle this on inherited object
+    public abstract void playCard();
    
 }
