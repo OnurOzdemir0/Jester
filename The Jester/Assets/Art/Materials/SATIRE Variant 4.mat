@@ -7,22 +7,17 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SATIRE Variant
+  m_Name: SATIRE Variant 4
   m_Shader: {fileID: -6465566751694194690, guid: 4fbb6e3f7fc371d4ba133a02e1f793bf,
     type: 3}
   m_Parent: {fileID: 2100000, guid: 2c1991dcd71f78440a589d06812eef62, type: 2}
-  m_ModifiedSerializedProperties: 16
+  m_ModifiedSerializedProperties: 2
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _EMISSION
-  - _ENVIRONMENTREFLECTIONS_OFF
-  - _RECEIVE_SHADOWS_OFF
-  - _SPECULARHIGHLIGHTS_OFF
-  - _SURFACE_TYPE_TRANSPARENT
-  m_LightmapFlags: 4
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 5000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -30,30 +25,14 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: db001c79372d9ef47a2b9daa1e893355, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: db001c79372d9ef47a2b9daa1e893355, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: db001c79372d9ef47a2b9daa1e893355, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: db001c79372d9ef47a2b9daa1e893355, type: 3}
+        m_Texture: {fileID: 2800000, guid: 094ba2c897f7a754e97fd572fbd41cd7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats:
-    - _EnvironmentReflections: 0
-    - _QueueOffset: 0
-    - _SpecularHighlights: 0
-    m_Colors:
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Floats: []
+    m_Colors: []
   m_BuildTextureStacks: []
---- !u!114 &7289911834690688667
+--- !u!114 &3237789936896941149
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
