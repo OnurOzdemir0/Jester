@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BarrierCard : Card
+public class FullSwapCard : Card
 {
     private void Awake()
     {
@@ -10,12 +10,12 @@ public class BarrierCard : Card
     }
     public override void playCard()
     {
-    
-     
-        if(!this.isPlayed && GameLogic.instance.getCanPlayMagicCard())
+
+
+        if (!this.isPlayed && GameLogic.instance.getCanPlayMagicCard())
         {
-            Debug.Log("Barrier  Card Played!");
-            GameLogic.instance.ActivateBarrier();
+            Debug.Log("FullSwap  Card Played!");
+            CardManager.instance.FullSwapCards();
             GameLogic.instance.PlayMagicCard();
             isPlayed = true;
             // transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z-5), 0.5f);

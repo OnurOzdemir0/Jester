@@ -174,8 +174,13 @@ public class CharacterController_ : MonoBehaviour
 
 
         if(maximumCollided){
+            if (maximumCollided.CompareTag("Clock"))
+            {
+
+
+            }
             // Debug.Log("Card found");
-            if (maximumCollided.gameObject.TryGetComponent<Card>(out Card card))
+            else if (maximumCollided.gameObject.TryGetComponent<Card>(out Card card))
             {
                 if(currentCard == null)
                 {

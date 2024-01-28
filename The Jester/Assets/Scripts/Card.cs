@@ -35,8 +35,12 @@ public abstract class Card : MonoBehaviour
         initialLocalRot = transform.localRotation.eulerAngles;
         material = GetComponent<Material>();
     }
+    private void OnDestroy()
+    {
+        // tween it 
+    }
 
-   
+
     public  void highlightCard(bool isTrue)
     {
         if(isTrue)
@@ -44,7 +48,7 @@ public abstract class Card : MonoBehaviour
             if(!isHighlighted)
             {
                 isHighlighted = true;
-                transform.position = new Vector3 (transform.position.x, transform.position.y, initialPos.z+1f);
+                transform.position = new Vector3 (transform.position.x, transform.position.y, initialPos.z+2f);
                 transform.DOMove(new Vector3(transform.position.x, initialPos.y + 1, transform.position.z), 0.5f);
                 
 

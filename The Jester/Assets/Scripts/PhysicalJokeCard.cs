@@ -8,7 +8,7 @@ public class PhysicalJokeCard : Card
 
     public override void playCard()
     {
-        Debug.Log("Physical Joke Card Played!");
+     
 
         if(!this.isPlayed)
         {
@@ -16,8 +16,9 @@ public class PhysicalJokeCard : Card
             // transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z-5), 0.5f);
            
 
-            if (GameLogic._logicInstance.handleAttack(GameLogic.MoodType.PHY))
+            if (GameLogic.instance.handleAttack(GameLogic.MoodType.PHY))
             {
+                Debug.Log("Physical Joke Card Played!");
                 CardManager.instance.RemoveCard(this);
                 isPlayed = true;
                 Destroy(this.gameObject, 0.5f);

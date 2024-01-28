@@ -10,11 +10,12 @@ public class FixOneMoodCard : Card
     }
     public override void playCard()
     {
-        Debug.Log("FixOneMoodCard  Card Played!");
+       
         this.isMagicCard = true;
 
-        if(!this.isPlayed && GameLogic._logicInstance.getCanPlayMagicCard())
+        if(!this.isPlayed && GameLogic.instance.getCanPlayMagicCard())
         {
+            Debug.Log("FixOneMoodCard  Card Played!");
             isPlayed = true;
             // transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z-5), 0.5f);
             CardManager.instance.RemoveCard(this);
@@ -22,7 +23,7 @@ public class FixOneMoodCard : Card
             //GameLogic._logicInstance.fixTheMoodCard(type);
             //
 
-            GameLogic._logicInstance.PlayMagicCard();
+            GameLogic.instance.PlayMagicCard();
 
             Destroy(this.gameObject, 0.5f);
         }

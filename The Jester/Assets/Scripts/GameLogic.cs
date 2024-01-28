@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,53 +7,15 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class GameLogic : MonoBehaviour
 {
-    private static GameLogic _logic;
+    public static GameLogic instance { get; private set; }
 
-    public static GameLogic _logicInstance
-    {
-        get
-        {
-            if (_logic == null)
-            {
-                _logic = FindObjectOfType<GameLogic>();
-                if (_logic == null)
-                {
-                    GameObject obj = new GameObject();
-                    obj.name = "GameLogic";
-                    _logic = obj.AddComponent<GameLogic>();
-                }
-            }
-            return _logic;
-        }
-    }
-
-    void Awake()
-    {
-        if (_logic == null)
-        {
-            _logic = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-    int playerHealth = 3; 
+    int playerHealth = 3;
     int tourScore = 0;
     int generalScore = 0;
-    int toureCount = 0;
-
-
+    int tourCount = 0;
     int moodBonus = 1;
-
     bool canPlayMagicCard = true;
-
     bool isBarrierActive = false;
-
-
-    //AI
-
     public struct KingMood
     {
         public int mood;
@@ -64,55 +27,241 @@ public class GameLogic : MonoBehaviour
         {
             if (fixedTourCount == 0)
             {
+                fixedTourCount = 2;
                 this.mood = mood;
             }
-           
-           
+
+
         }
- 
+
     }
 
-   
     public enum MoodType
     {
-        PHY,SAT,WORD
+        PHY, SAT, WORD
     }
 
-    public KingMood phyMood = new KingMood { mood = 0, fixedTourCount = 2 , isRevealed = false};
-    public KingMood satMood = new KingMood { mood = 0, fixedTourCount = 2 , isRevealed = false };
-    public KingMood wrdMood = new KingMood { mood = 0, fixedTourCount = 2 , isRevealed = false };
+    private KingMood phyMood = new KingMood { mood = 0, fixedTourCount = 0, isRevealed = false };
+    private KingMood satMood = new KingMood { mood = 0, fixedTourCount = 0, isRevealed = false };
+    private KingMood wrdMood = new KingMood { mood = 0, fixedTourCount = 0, isRevealed = false };
+
+    public KingMood m_phyMood  {get { return phyMood; } }
+    public KingMood m_satMood { get { return satMood; } }
+    public KingMood m_wrdMood { get { return wrdMood; } }
+
+    [SerializeField]
+    private Transform clockPivot;
+
+    void Awake()
+    {
+        if (instance!=  null && instance != this)   
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
+
+    void Start()
+    {
+        setupGame();
+
+
+    }
+
+    //AI
+    void Update()
+    {
+       
+    }
+
+    private void setupGame()
+    {
+
+        playerHealth = 3;
+        tourScore = 0;
+        generalScore = 0;
+        tourCount = 0;
+        moodBonus = 1;
+        canPlayMagicCard = true;
+        isBarrierActive = false;
+        InitClock();
+        UpdateMood();
+
+    }
+    private void InitClock()
+    {
+        clockPivot.localEulerAngles = new Vector3(0f,0f,60f);
+
+    }
+
+    private void HandleClock()
+    {
+        if(clockPivot.localEulerAngles.z + 30f > 360)
+        {
+            // clockPivot.localEulerAngles = Vector3.zero;
+            clockPivot.GetComponent<Collider>().enabled = false;
+            clockPivot.DOLocalRotate(Vector3.zero, 0.1f).onComplete = () => { clockPivot.GetComponent<Collider>().enabled = true; };
+        }
+        else
+        {
+            Vector3 nextRotation = new Vector3(0f, 0f, clockPivot.localEulerAngles.z + 30f);
+            clockPivot.GetComponent<Collider>().enabled = false;
+            clockPivot.DOLocalRotate(nextRotation, 0.1f).onComplete = () => { clockPivot.GetComponent<Collider>().enabled = true; };
+        }
+        
+    }
+   
+    private void NextTour()
+    {
+        tourCount++;
+        HandleClock();
+        if (tourCount > 12)
+        {
+            LooseGame();
+        }
+        tourScore = 0;
+        moodBonus = 1;
+        canPlayMagicCard = true;
+
+        UpdateMood();
+    }
+
+    private void LooseGame()
+    {
+        Debug.Log("Lost the game");
+    }
+    private void WinGame()
+    {
+        Debug.Log("Won  the game");
+    }
 
     private void UpdateMood(){
-        int selection = Random.Range(1, 4);
+        int selection = Random.Range(0, 3);
 
         switch (selection)
         {
-            case 1: phyMood.setMood(1);
+            case 0: phyMood.setMood(1);
                     satMood.setMood(Random.Range(-1, 1));
                     wrdMood.setMood(Random.Range(-1, 1));
+                    
                     break;
-            case 2: satMood.setMood(1);
-                phyMood.setMood(Random.Range(-1, 1));
+            case 1: satMood.setMood(1);
+                    phyMood.setMood(Random.Range(-1, 1));
                     wrdMood.setMood(Random.Range(-1, 1)); 
                     break;
-            case 3: wrdMood.setMood(1);
+            case 2: wrdMood.setMood(1);
                     phyMood.setMood(Random.Range(-1, 1));
                     satMood.setMood(Random.Range(-1, 1)); 
                     break;
         }
-
+        Debug.Log("phymood : " + phyMood.mood);
+        Debug.Log("satMood : " + satMood.mood);
+        Debug.Log("wrdMood : " + wrdMood.mood);
     }
+
+
+    public bool handleAttack(MoodType type)
+    {
+
+
+        switch (type)
+        {
+            case MoodType.PHY:
+                int phy_result = phyMood.mood * moodBonus;
+                if (phy_result < 0)
+                {
+                    DamageToPlayer(phy_result);
+                }
+                else
+                {
+                    GainPoint(phy_result);
+                }
+                return true;
+
+            case MoodType.SAT:
+                int sat_result = satMood.mood * moodBonus;
+                if (sat_result < 0)
+                {
+                    DamageToPlayer(sat_result);
+                }
+                else
+                {
+                    GainPoint(sat_result);
+                }
+                return true;
+
+            case MoodType.WORD:
+                int word_result = wrdMood.mood * moodBonus;
+                if (word_result < 0)
+                {
+                    DamageToPlayer(word_result);
+                }
+                else
+                {
+                    GainPoint(word_result);
+                }
+                return true;
+
+
+        }
+        return false;
+    }
+
+    private void GainPoint(int point)
+    {
+
+        tourScore += point;
+        Debug.Log("tour point gained: " + point + "\n" + "total tourScore :  " + tourScore);
+        if (tourScore >= 3)
+        {
+            WinGame();
+
+        }
+        generalScore += point;
+        Debug.Log("generalScore point gained: " + point + "\n" + "generalScore tourScore :  " + generalScore);
+        if (generalScore >= 5)
+        {
+            WinGame();
+        }
+    }
+    private void DamageToPlayer(int damage)
+    {
+        if (isBarrierActive)
+        {
+            Debug.Log("Barrier was activated so damage emitted");
+            isBarrierActive = false;
+            return;
+        }
+        // damage is negative
+        if (Mathf.Abs(damage) >= playerHealth)
+        {
+            Debug.Log("damage dealt by king and you die !");
+            playerHealth = 0;
+            LooseGame();
+        }
+        else
+        {
+            Debug.Log("damage dealt by king");
+            playerHealth += damage;
+        }
+    }
+
 
     public bool getCanPlayMagicCard() { return canPlayMagicCard; }
     public void PlayMagicCard()
     {
-        canPlayMagicCard = true;
+        canPlayMagicCard = false;
+        Debug.Log("cannot play magic card more this round");
         
     }
     public void UpdateMoodBonus()
     {
         moodBonus = 2;
-
+        Debug.Log("mood bonus added: " + moodBonus);
     }
 
 
@@ -124,6 +273,7 @@ public class GameLogic : MonoBehaviour
                 if (!phyMood.isRevealed)
                 {
                     phyMood.isRevealed = true;
+                    Debug.Log("phyMood revealed");
                     return true;
                 }
                 break;
@@ -131,6 +281,7 @@ public class GameLogic : MonoBehaviour
                 if (!satMood.isRevealed)
                 {
                     satMood.isRevealed = true;
+                    Debug.Log("satMood revealed");
                     return true;
                 }
                 break;
@@ -139,6 +290,7 @@ public class GameLogic : MonoBehaviour
                 {
 
                     wrdMood.isRevealed = true;
+                    Debug.Log("wrdMood revealed");
                     return true;
                 }
                 break;
@@ -213,6 +365,7 @@ public class GameLogic : MonoBehaviour
                 if (!phyMood.isRevealed)
                 {
                     unRevealeds.Add(0);
+                    Debug.Log("phyMood Randomly  revealed ");
                     return true;
                 }
 
@@ -221,6 +374,7 @@ public class GameLogic : MonoBehaviour
                 if (!satMood.isRevealed)
                 {
                     unRevealeds.Add(1);
+                    Debug.Log("satMood Randomly  revealed ");
                     return true;
                 }
                 break;
@@ -228,6 +382,7 @@ public class GameLogic : MonoBehaviour
                 if (!wrdMood.isRevealed)
                 {
                     unRevealeds.Add(2);
+                    Debug.Log("wrdMood Randomly  revealed ");
                     return true; 
                 }
                 break;
@@ -239,149 +394,42 @@ public class GameLogic : MonoBehaviour
     }
 
 
-    void Start()
-    {
-        setupGame();
-
-        
-    }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
-    private void setupGame(){
-        
-        UpdateMood();                       //only for the first setup, update mood immediately
-
-    }
+    
+   
     public void ActivateBarrier()
     {
         isBarrierActive = true;
+        Debug.Log(" barrier activated");
     }
     
-    public bool handleAttack(MoodType type)
-    {
-       
-
-        switch (type)
-        {
-            case MoodType.PHY:
-                int phy_result = phyMood.mood * moodBonus;
-                if(phy_result < 0)
-                {
-                    DamageToPlayer(phy_result);
-                }
-                else
-                {
-                    GainPoint(phy_result);
-                }
-                return true;
-            
-            case MoodType.SAT:
-                int sat_result = satMood.mood * moodBonus;
-                if (sat_result < 0)
-                {
-                    DamageToPlayer(sat_result);
-                }
-                else
-                {
-                    GainPoint(sat_result);
-                }
-                return true;
-               
-            case MoodType.WORD:
-                int word_result = wrdMood.mood * moodBonus;
-                if (word_result < 0)
-                {
-                    DamageToPlayer(word_result);
-                }
-                else
-                {
-                    GainPoint(word_result);
-                }
-                return true;
-
-                
-        }
-        return false;
-    }
-
+    
     public bool fixTheMood(MoodType type)
     {
 
         switch (type) { 
         case MoodType.PHY:
                 phyMood.fixedTourCount++;
+                Debug.Log(" phy Mood fixed ");
                 return true;
 
         case MoodType.SAT:
                 satMood.fixedTourCount++;
+                Debug.Log(" satMood Mood fixed ");
                 return true;
 
         case MoodType.WORD:
             wrdMood.fixedTourCount++;
-            return true;
+                Debug.Log(" wrdMood Mood fixed ");
+                return true;
         
         }
 
         return false;
     }
 
-    private void GainPoint(int point)
-    {
 
-        tourScore += point;
-        if(tourScore>=3)
-        {
-            WinGame();
-
-        }
-        generalScore += point;
-        if(generalScore >= 5)
-        {
-            WinGame();
-        }
-    }
-    private void DamageToPlayer(int damage)
-    {
-        if (isBarrierActive)
-        {
-            Debug.Log("Barrier was activated so damage emitted");
-            isBarrierActive = false;
-            return ;
-        }
-        // damage is negative
-        if (Mathf.Abs(damage) >= playerHealth)
-        {
-            playerHealth = 0;
-            LooseGame();
-        }
-        else
-        {
-            playerHealth += damage;
-        }
-    }
-    private void NextTour(){
-        toureCount++;
-        if(toureCount > 10)
-        {
-            LooseGame();
-        }
-        tourScore = 0;
-        moodBonus = 1;
-        canPlayMagicCard = true;
-        UpdateMood();
-    }
-
-    private void LooseGame()
-    {
-
-    }
-    private void WinGame()
-    {
-        
-    }
+   
 }

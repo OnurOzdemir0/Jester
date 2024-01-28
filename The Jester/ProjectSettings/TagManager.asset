@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayStart
   - Game Start
+  - Clock
   layers:
   - Default
   - TransparentFX

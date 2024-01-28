@@ -8,12 +8,13 @@ public class WordPlayCard : Card
 
     public override void playCard()
     {
-        Debug.Log("WordPlay Card Played!");
+        
         
         if(!this.isPlayed)
         {
-            if (GameLogic._logicInstance.handleAttack(GameLogic.MoodType.WORD))
+            if (GameLogic.instance.handleAttack(GameLogic.MoodType.WORD))
             {
+                Debug.Log("WordPlay Card Played!");
                 CardManager.instance.RemoveCard(this);
                 isPlayed = true;
                 Destroy(this.gameObject, 0.5f);

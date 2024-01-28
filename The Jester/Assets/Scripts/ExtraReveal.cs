@@ -10,21 +10,22 @@ public class ExtraReveal : Card
     public override void playCard()
     {
         this.isMagicCard = true;
-        //Debug.Log("ExtraReveal  Card Played!");
+       
 
-        if(!this.isPlayed && GameLogic._logicInstance.getCanPlayMagicCard())
+        if(!this.isPlayed && GameLogic.instance.getCanPlayMagicCard())
         {
 
+         
 
-           
 
-            if (GameLogic._logicInstance.RevealMoodRandom())
+            if (GameLogic.instance.RevealMoodRandom())
             {
+                Debug.Log("ExtraReveal  Card Played!");
                 isPlayed = true;
                
                 CardManager.instance.RemoveCard(this);
 
-                GameLogic._logicInstance.PlayMagicCard();
+                GameLogic.instance.PlayMagicCard();
 
                 Destroy(this.gameObject, 0.5f);
             }

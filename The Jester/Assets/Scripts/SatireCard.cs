@@ -8,14 +8,15 @@ public class SatireCard : Card
 
     public override void playCard()
     {
-        Debug.Log("Satire  Card Played!");
+       
 
         if(!this.isPlayed)
         {
            
 
-          if(GameLogic._logicInstance.handleAttack(GameLogic.MoodType.SAT))
+          if(GameLogic.instance.handleAttack(GameLogic.MoodType.SAT))
             {
+                Debug.Log("Satire  Card Played!");
                 isPlayed = true;
                 // transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z-5), 0.5f);
                 CardManager.instance.RemoveCard(this);

@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class CardManager : MonoBehaviour
 {
-    public static List<Card> cards = new List<Card>();
+    private List<Card> cards = new List<Card>();
 
 
 
@@ -18,12 +18,21 @@ public class CardManager : MonoBehaviour
     private GameObject _cardPrefab;
     public static CardManager instance;
 
-    private void Start()
-    {   
-        if(instance == null)
-            instance = this;
-        else
+    private void Awake()
+    {
+        if(instance != null && instance!= this)
+        {
             Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
+    private void Start()
+    { 
+
     }
 
     public void AddCard(Card card){
@@ -46,33 +55,29 @@ public class CardManager : MonoBehaviour
             cards[i].transform.rotation = Quaternion.Euler(0, 0, 90);
         }
     }
+    public void FullSwapCards()
+    {
+        for(int i = 0; i< cards.Count;i++)
+        {
+            Destroy(cards[i].gameObject);
+        }
+        cards.Clear();
+        DrawCard(4);
 
+    }
     public void RemoveCard(Card card){
         cards.Remove(card);
         ResizeHand();
     }
 
-    void Awake()
+    private void DrawCard(int count)
     {
-        int randomIndex1 = Random.Range(0, cardPrefabs.Count);
-        int randomIndex2 = Random.Range(0, cardPrefabs.Count);
-        int randomIndex3 = Random.Range(0, cardPrefabs.Count);
-        int randomIndex4 = Random.Range(0, cardPrefabs.Count);
-        //
-        GameObject card1 = Instantiate(cardPrefabs[randomIndex1], transform.position, Quaternion.identity,transform);
-
-        AddCard(card1.GetComponent<Card>()); //.GetComponent<Card>());
-
-        GameObject card2 = Instantiate(cardPrefabs[randomIndex2], transform.position, Quaternion.identity, transform);
-
-        AddCard(card2.GetComponent<Card>()); //.GetComponent<Card>());
-        GameObject card3 = Instantiate(cardPrefabs[randomIndex3], transform.position, Quaternion.identity, transform);
-
-        AddCard(card3.GetComponent<Card>()); //.GetComponent<Card>());
-        GameObject card4 = Instantiate(cardPrefabs[randomIndex4], transform.position, Quaternion.identity, transform);
-
-        AddCard(card4.GetComponent<Card>()); //.GetComponent<Card>());
-
-    }    
+        for(int i = 0;i < count; i++) {
+            int randomIndex = Random.Range(0, cardPrefabs.Count);
+            GameObject card = Instantiate(cardPrefabs[randomIndex], transform.position, Quaternion.identity, transform);
+            AddCard(card.GetComponent<Card>());
+        }
+    }
+  
 
 }
