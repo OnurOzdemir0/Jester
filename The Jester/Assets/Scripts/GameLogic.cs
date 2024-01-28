@@ -66,6 +66,11 @@ public class GameLogic : MonoBehaviour
         }
  
     }
+
+    public void PlayMagicCard()
+    {
+
+    }
     public enum MoodType
     {
         PHY,SAT,WORD
