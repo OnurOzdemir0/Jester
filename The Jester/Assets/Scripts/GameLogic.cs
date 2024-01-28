@@ -42,8 +42,13 @@ public class GameLogic : MonoBehaviour
     int tourScore = 0;
     int generalScore = 0;
     int toureCount = 0;
+
+
     int moodBonus = 1;
-    public bool canPlayMagicCard = true;
+
+    bool canPlayMagicCard = true;
+
+    bool isBarrierActive = false;
 
 
     //AI
@@ -67,10 +72,7 @@ public class GameLogic : MonoBehaviour
  
     }
 
-    public void PlayMagicCard()
-    {
-
-    }
+   
     public enum MoodType
     {
         PHY,SAT,WORD
@@ -100,6 +102,20 @@ public class GameLogic : MonoBehaviour
         }
 
     }
+
+    public bool getCanPlayMagicCard() { return canPlayMagicCard; }
+    public void PlayMagicCard()
+    {
+        canPlayMagicCard = true;
+        
+    }
+    public void UpdateMoodBonus()
+    {
+        moodBonus = 2;
+
+    }
+
+
     public bool RevealMood(MoodType type)
     {
        switch (type)
@@ -153,7 +169,7 @@ public class GameLogic : MonoBehaviour
         return false;
 
     }
-    public void RevealMoodRandom()
+    public bool RevealMoodRandom()
     {
         int selection = Random.Range(0, 3);
         
@@ -182,7 +198,7 @@ public class GameLogic : MonoBehaviour
                 break;
 
         }
-
+        if (unRevealeds.Count == 0) return false;
 
         int randomIndex = Random.Range(0, unRevealeds.Count);
 
@@ -197,6 +213,7 @@ public class GameLogic : MonoBehaviour
                 if (!phyMood.isRevealed)
                 {
                     unRevealeds.Add(0);
+                    return true;
                 }
 
                 break;
@@ -204,16 +221,19 @@ public class GameLogic : MonoBehaviour
                 if (!satMood.isRevealed)
                 {
                     unRevealeds.Add(1);
+                    return true;
                 }
                 break;
             case 2:
                 if (!wrdMood.isRevealed)
                 {
                     unRevealeds.Add(2);
+                    return true; 
                 }
                 break;
 
         }
+        return false;
 
 
     }
@@ -237,10 +257,15 @@ public class GameLogic : MonoBehaviour
         UpdateMood();                       //only for the first setup, update mood immediately
 
     }
-
-   
-    public void handleAttack(MoodType type)
+    public void ActivateBarrier()
     {
+        isBarrierActive = true;
+    }
+    
+    public bool handleAttack(MoodType type)
+    {
+       
+
         switch (type)
         {
             case MoodType.PHY:
@@ -253,7 +278,8 @@ public class GameLogic : MonoBehaviour
                 {
                     GainPoint(phy_result);
                 }
-                break;
+                return true;
+            
             case MoodType.SAT:
                 int sat_result = satMood.mood * moodBonus;
                 if (sat_result < 0)
@@ -264,8 +290,8 @@ public class GameLogic : MonoBehaviour
                 {
                     GainPoint(sat_result);
                 }
-
-                break;
+                return true;
+               
             case MoodType.WORD:
                 int word_result = wrdMood.mood * moodBonus;
                 if (word_result < 0)
@@ -276,11 +302,33 @@ public class GameLogic : MonoBehaviour
                 {
                     GainPoint(word_result);
                 }
+                return true;
 
-                break;
+                
         }
+        return false;
     }
 
+    public bool fixTheMood(MoodType type)
+    {
+
+        switch (type) { 
+        case MoodType.PHY:
+                phyMood.fixedTourCount++;
+                return true;
+
+        case MoodType.SAT:
+                satMood.fixedTourCount++;
+                return true;
+
+        case MoodType.WORD:
+            wrdMood.fixedTourCount++;
+            return true;
+        
+        }
+
+        return false;
+    }
 
     private void GainPoint(int point)
     {
@@ -299,8 +347,14 @@ public class GameLogic : MonoBehaviour
     }
     private void DamageToPlayer(int damage)
     {
+        if (isBarrierActive)
+        {
+            Debug.Log("Barrier was activated so damage emitted");
+            isBarrierActive = false;
+            return ;
+        }
         // damage is negative
-        if(Mathf.Abs(damage) >= playerHealth)
+        if (Mathf.Abs(damage) >= playerHealth)
         {
             playerHealth = 0;
             LooseGame();

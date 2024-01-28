@@ -12,13 +12,24 @@ public class PhysicalJokeCard : Card
 
         if(!this.isPlayed)
         {
-            isPlayed = true;
+            
             // transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z-5), 0.5f);
-            CardManager.instance.RemoveCard(this);
+           
+
+            if (GameLogic._logicInstance.handleAttack(GameLogic.MoodType.PHY))
+            {
+                CardManager.instance.RemoveCard(this);
+                isPlayed = true;
+                Destroy(this.gameObject, 0.5f);
+            }
+            else
+            {
+                // handle problem
+            }
 
             // GameLogic._logicInstance.handleAttack(0); //0 for index of the joke list index in GameLogic
 
-            Destroy(this.gameObject, 0.5f);
+            
         }
     }
 }

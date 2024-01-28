@@ -134,7 +134,7 @@ public class CharacterController_ : MonoBehaviour
         for (int i = 0; i< playerCam.transform.childCount;i++)
         {
             Transform child = playerCam.transform.GetChild(i);
-            Debug.Log(child.forward);
+           // Debug.Log(child.forward);
             
             Ray newRay= new Ray(child.position,child.forward);
 

@@ -12,13 +12,17 @@ public class WordPlayCard : Card
         
         if(!this.isPlayed)
         {
-            isPlayed = true;
-            // transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z-5), 0.5f);
-            CardManager.instance.RemoveCard(this);
-
-            GameLogic._logicInstance.handleAttack(GameLogic.MoodType.WORD); //2 for index of the joke list index in GameLogic
-
-            Destroy(this.gameObject, 0.5f);
+            if (GameLogic._logicInstance.handleAttack(GameLogic.MoodType.WORD))
+            {
+                CardManager.instance.RemoveCard(this);
+                isPlayed = true;
+                Destroy(this.gameObject, 0.5f);
+            }
+            else
+            {
+                // handle problem
+            }
+          
         }
     }
 }

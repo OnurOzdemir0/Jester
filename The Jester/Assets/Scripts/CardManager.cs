@@ -10,10 +10,10 @@ public class CardManager : MonoBehaviour
 {
     public static List<Card> cards = new List<Card>();
 
+
+
     [SerializeField]
-    public GameObject PhysicalCardPrefab;
-    public GameObject SatireCardPrefab;
-    public GameObject WordplayCardPrefab;
+    List<GameObject> cardPrefabs = new List<GameObject>();
 
     private GameObject _cardPrefab;
     public static CardManager instance;
@@ -54,15 +54,24 @@ public class CardManager : MonoBehaviour
 
     void Awake()
     {
-        GameObject physicalCardPrefab = Instantiate(PhysicalCardPrefab, transform.position, Quaternion.identity,transform);
+        int randomIndex1 = Random.Range(0, cardPrefabs.Count);
+        int randomIndex2 = Random.Range(0, cardPrefabs.Count);
+        int randomIndex3 = Random.Range(0, cardPrefabs.Count);
+        int randomIndex4 = Random.Range(0, cardPrefabs.Count);
+        //
+        GameObject card1 = Instantiate(cardPrefabs[randomIndex1], transform.position, Quaternion.identity,transform);
 
-        AddCard(physicalCardPrefab.GetComponent<PhysicalJokeCard>()); //.GetComponent<Card>());
+        AddCard(card1.GetComponent<Card>()); //.GetComponent<Card>());
 
-        GameObject satire = Instantiate(SatireCardPrefab, transform.position, Quaternion.identity, transform);
-        AddCard(satire.GetComponent<SatireCard>()); //.GetComponent<Card>());
+        GameObject card2 = Instantiate(cardPrefabs[randomIndex2], transform.position, Quaternion.identity, transform);
 
-        GameObject word = Instantiate(WordplayCardPrefab, transform.position, Quaternion.identity, transform);
-        AddCard(word.GetComponent<WordPlayCard>()); //.GetComponent<Card>());
+        AddCard(card2.GetComponent<Card>()); //.GetComponent<Card>());
+        GameObject card3 = Instantiate(cardPrefabs[randomIndex3], transform.position, Quaternion.identity, transform);
+
+        AddCard(card3.GetComponent<Card>()); //.GetComponent<Card>());
+        GameObject card4 = Instantiate(cardPrefabs[randomIndex4], transform.position, Quaternion.identity, transform);
+
+        AddCard(card4.GetComponent<Card>()); //.GetComponent<Card>());
 
     }    
 
