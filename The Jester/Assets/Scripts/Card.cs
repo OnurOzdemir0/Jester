@@ -6,7 +6,7 @@ using UnityEngine;
 
 
 
-public abstract class Card : MonoBehaviour
+public abstract class Card : MonoBehaviour, IInteractable
 {
     private bool isHighlighted = false;
     protected bool isPlayed = false;
@@ -41,7 +41,7 @@ public abstract class Card : MonoBehaviour
     }
 
 
-    public  void highlightCard(bool isTrue)
+    private  void highlightCard(bool isTrue)
     {
         if(isTrue)
         {
@@ -97,7 +97,24 @@ public abstract class Card : MonoBehaviour
                 // reverse
         }
     }
-
     public abstract void playCard();
-   
+    public void OnSelection()
+    {
+        highlightCard(true);
+    }
+    public void OnPressLeftClick()
+    {
+        playCard();
+    }
+    public void OnPressRightClick()
+    {
+        reverseCard();
+    }
+
+    public void OnDeSelection()
+    {
+        highlightCard(false);
+    }
+
+
 }

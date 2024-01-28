@@ -10,7 +10,8 @@ public class CharacterController_ : MonoBehaviour
 {
     [SerializeField] private Camera playerCam;
 
-    private Card currentCard = null;
+    private IInteractable currentInteractable = null;
+
 
     private float walkSpeed;
 
@@ -86,18 +87,20 @@ public class CharacterController_ : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if(currentCard != null)
+            if(currentInteractable != null)
             {
-                currentCard.playCard();
+                currentInteractable.OnPressLeftClick();
             }
+
+            
 
 
         }
         if(Input.GetMouseButtonDown(1))
         {
-            if(currentCard != null)
+            if(currentInteractable != null)
             {
-                currentCard.reverseCard();
+                currentInteractable.OnPressLeftClick();
             }
         }
 
@@ -116,7 +119,8 @@ public class CharacterController_ : MonoBehaviour
 
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
-        {
+        {   
+
 
             if (keyValuePairs.TryGetValue(hit.collider, out int val))
             {
@@ -174,34 +178,30 @@ public class CharacterController_ : MonoBehaviour
 
 
         if(maximumCollided){
-            if (maximumCollided.CompareTag("Clock"))
-            {
-
-
-            }
+            
             // Debug.Log("Card found");
-            else if (maximumCollided.gameObject.TryGetComponent<Card>(out Card card))
+            if (maximumCollided.gameObject.TryGetComponent<IInteractable>(out IInteractable interactable))
             {
-                if(currentCard == null)
+                if(currentInteractable == null)
                 {
-                    currentCard = card;
-                    currentCard.highlightCard(true);
+                    currentInteractable = interactable;
+                    currentInteractable.OnSelection();
 
-                }else if (currentCard != card)
+                }else if (currentInteractable != interactable)
                 {
-                    currentCard.highlightCard(false);
-                    currentCard = card;
-                    currentCard.highlightCard(true);
+                    currentInteractable.OnDeSelection();
+                    currentInteractable = interactable;
+                    currentInteractable.OnSelection();
 
                 }
 
             }
             else
             {   
-                if(currentCard != null)
+                if(currentInteractable != null)
                 {
-                    currentCard.highlightCard(false);
-                    currentCard = null;
+                    currentInteractable.OnDeSelection();
+                    currentInteractable = null;
                 }
                
                 
@@ -209,9 +209,9 @@ public class CharacterController_ : MonoBehaviour
 
         }
         else
-        {   if(currentCard !=null) {
-                currentCard.highlightCard(false);
-                currentCard = null;
+        {   if(currentInteractable != null) {
+                currentInteractable.OnDeSelection();
+                currentInteractable = null;
             
             }
             

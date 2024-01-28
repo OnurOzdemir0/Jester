@@ -52,6 +52,9 @@ public class GameLogic : MonoBehaviour
     [SerializeField]
     private Transform clockPivot;
 
+    [SerializeField]
+    private Collider clockCollider;
+
     void Awake()
     {
         if (instance!=  null && instance != this)   
@@ -99,23 +102,23 @@ public class GameLogic : MonoBehaviour
     }
 
     private void HandleClock()
-    {
+    { 
         if(clockPivot.localEulerAngles.z + 30f > 360)
         {
             // clockPivot.localEulerAngles = Vector3.zero;
-            clockPivot.GetComponent<Collider>().enabled = false;
-            clockPivot.DOLocalRotate(Vector3.zero, 0.1f).onComplete = () => { clockPivot.GetComponent<Collider>().enabled = true; };
+            clockCollider.enabled = false;
+            clockPivot.DOLocalRotate(Vector3.zero, 0.1f).onComplete = () => { clockCollider.enabled = true; };
         }
         else
         {
             Vector3 nextRotation = new Vector3(0f, 0f, clockPivot.localEulerAngles.z + 30f);
-            clockPivot.GetComponent<Collider>().enabled = false;
-            clockPivot.DOLocalRotate(nextRotation, 0.1f).onComplete = () => { clockPivot.GetComponent<Collider>().enabled = true; };
+            clockCollider.enabled = false;
+            clockPivot.DOLocalRotate(nextRotation, 0.1f).onComplete = () => { clockCollider.enabled = true; };
         }
         
     }
    
-    private void NextTour()
+    public void NextTour()
     {
         tourCount++;
         HandleClock();

@@ -497,10 +497,10 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 14.7
-  m_Range: 12.43352
-  m_SpotAngle: 57.826447
-  m_InnerSpotAngle: 23.446724
+  m_Intensity: 30
+  m_Range: 13.142076
+  m_SpotAngle: 30.35712
+  m_InnerSpotAngle: 23.863863
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -556,7 +556,7 @@ Transform:
   m_GameObject: {fileID: 17757884}
   serializedVersion: 2
   m_LocalRotation: {x: 0.76672435, y: 0.10757498, z: 0.13331245, w: 0.61869955}
-  m_LocalPosition: {x: -0.3, y: 10.93, z: 3.55}
+  m_LocalPosition: {x: -0.22, y: 10.93, z: 3.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24146,75 +24146,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1526803612}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1082912529
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1082912531}
-  - component: {fileID: 1082912530}
-  - component: {fileID: 1082912532}
-  m_Layer: 0
-  m_Name: clockTrigger
-  m_TagString: Clock
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &1082912530
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082912529}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3, y: 3, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!4 &1082912531
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082912529}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.42, y: 1.84, z: 12.04}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1082912532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082912529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30b5805a63fb55c4186dcd5448f0d545, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clockMaterial: {fileID: 0}
-  emissionColor: {r: 1, g: 1, b: 1, a: 1}
-  duration: 1
 --- !u!4 &1082981139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 448002, guid: 64cb684f38ab4e547a77225cd823cf62,
@@ -24811,14 +24742,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116646854}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.5, w: 0.8660254}
+  m_LocalRotation: {x: 0, y: 0, z: 0.2588191, w: 0.9659258}
   m_LocalPosition: {x: -11.095046, y: -1.1894419, z: 16.140171}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4783511395332608045}
   m_Father: {fileID: 543450653434569363}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 60}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30}
 --- !u!4 &1117079811 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 454578, guid: 7250e3ee64608cf4ebd2df16b04e2e4b,
@@ -30158,7 +30089,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 91.4
+  m_Intensity: 93.24
   m_Range: 16.391626
   m_SpotAngle: 57.826447
   m_InnerSpotAngle: 5.9250665
@@ -36506,6 +36437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clockPivot: {fileID: 1116646855}
+  clockCollider: {fileID: 5551751033549053374}
 --- !u!4 &1604755042
 Transform:
   m_ObjectHideFlags: 0
@@ -49702,6 +49634,8 @@ GameObject:
   - component: {fileID: 2518048534160271314}
   - component: {fileID: 5282670409582464698}
   - component: {fileID: 5551751033549053373}
+  - component: {fileID: 5551751033549053375}
+  - component: {fileID: 5551751033549053374}
   m_Layer: 0
   m_Name: Shape004
   m_TagString: Untagged
@@ -49929,7 +49863,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: aef46af7d27cc3f4eb3cd6f310f07ec7, type: 2}
+  - {fileID: 2100000, guid: af1e1a3ec50f2924b8b4b8e9f6b44eed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -49951,6 +49885,42 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &5551751033549053374
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2423584644502525969}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 54.61
+  m_Center: {x: -10.484478, y: -1.5208281, z: 14.346362}
+--- !u!114 &5551751033549053375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2423584644502525969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30b5805a63fb55c4186dcd5448f0d545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clockMaterial: {fileID: 2100000, guid: af1e1a3ec50f2924b8b4b8e9f6b44eed, type: 2}
+  light: {fileID: 17757886}
+  duration: 0.05
 --- !u!1 &5769370776394690427
 GameObject:
   m_ObjectHideFlags: 0
@@ -50225,4 +50195,3 @@ SceneRoots:
   - {fileID: 543450653434569363}
   - {fileID: 2137916058}
   - {fileID: 1604755042}
-  - {fileID: 1082912531}

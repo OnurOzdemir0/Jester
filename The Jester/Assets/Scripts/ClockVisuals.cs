@@ -2,25 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
-public class ClockVisuals : MonoBehaviour
+public class ClockVisuals : MonoBehaviour,IInteractable
 {
-    [SerializeField] Material clockMaterial;
+    [SerializeField]
+    Material clockMaterial;
+    [SerializeField]
+    Light light;
 
-    [SerializeField] Color emissionColor = Color.black;
 
     [SerializeField,Range(0.05f,float.MaxValue)] float duration = 1.0f;
 
     private bool isHighlighted = false;
     private bool isHighlightingNow = false;
     private bool isUnHighlightingNow  =false;
+
+    private void Start()
+    {
+        clockMaterial = GetComponent<Renderer>().material;
+        clockMaterial.SetColor("_EmissionColor", Color.black);
+    }
+
     public void  HighlightClock()
     {
-        
-        if(!isHighlighted)
+
+
+    
+
+        if (!isHighlighted)
         {
             isHighlighted = true;
-
+            light.intensity = 150;
             
             if(!isHighlightingNow)
                 StartCoroutine(smoothIncrease());
@@ -35,6 +48,7 @@ public class ClockVisuals : MonoBehaviour
     {
         if(isHighlighted)
         {
+            light.intensity = 30;
             isHighlighted =false;   
 
             if(!isUnHighlightingNow)
@@ -51,24 +65,22 @@ public class ClockVisuals : MonoBehaviour
 
         isHighlightingNow = true;
         float startValue = 0.0f;
-            float elapsedTime = 0f;
+        float elapsedTime = 0f;
             
         while (elapsedTime < duration && isHighlighted)
         {
               
-            float newValue = Mathf.Lerp(startValue, 100, elapsedTime / duration);
+            Color newValue = Color.Lerp(clockMaterial.color, Color.white, startValue);
 
-            Color newColor = Color.HSVToRGB(0, 0, newValue);
-            clockMaterial.SetColor("_EmissiveColor", newColor);
-
-              
+           
+            clockMaterial.SetColor("_EmissionColor", newValue);
+            
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         isHighlightingNow = false;
             
-        // Coroutine finished
-        Debug.Log("Emission Value animation completed!");
+      
      }
 
 
@@ -81,28 +93,37 @@ public class ClockVisuals : MonoBehaviour
 
         while (elapsedTime < duration)
         {
-
-            float newValue = Mathf.Lerp(startValue, 0, elapsedTime / duration);
-
-            Color newColor = Color.HSVToRGB(0, 0, newValue);
-            clockMaterial.SetColor("_EmissiveColor", newColor);
-
-
+            Color newValue = Color.Lerp(clockMaterial.color, Color.black, startValue);
+            clockMaterial.SetColor("_EmissionColor", newValue);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         isUnHighlightingNow = false;
 
-        // Coroutine finished
-        Debug.Log("Emission Value animation completed!");
     }
 
 
 
-   
+    public void OnSelection()
+    {
+        HighlightClock();
+    }
+    public void OnPressLeftClick()
+    {
+        GameLogic.instance.NextTour();
+    }
+    public void OnPressRightClick()
+    {
 
-    
-    
-    
+    }
+
+    public void OnDeSelection()
+    {
+        UnHighlight();
+    }
+
+
+
+
 }
 
