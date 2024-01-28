@@ -118,8 +118,8 @@ public class CharacterController_ : MonoBehaviour
 
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
-        {   
-
+        {
+            
 
             if (keyValuePairs.TryGetValue(hit.collider, out int val))
             {
@@ -141,14 +141,16 @@ public class CharacterController_ : MonoBehaviour
             
             Ray newRay= new Ray(child.position,child.forward);
 
-            RaycastHit myHit;
             
-            if (Physics.Raycast(ray, out myHit, Mathf.Infinity))
+            
+            if (Physics.Raycast(newRay, out RaycastHit myHit, Mathf.Infinity))
             {
-                Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 1);
+                Debug.Log("Hit object: " + myHit.collider.gameObject.name);
+                Debug.DrawRay(newRay.origin, newRay.direction * 1000, Color.red, 1);
                 if (keyValuePairs.TryGetValue(myHit.collider, out int val)) {
 
-                    keyValuePairs[myHit.collider] = val++;
+                    keyValuePairs[myHit.collider] = val+1;
+                    
 
                 }
                 else
@@ -161,12 +163,15 @@ public class CharacterController_ : MonoBehaviour
 
         }
         Collider maximumCollided = null;
-        int max = 0;
+        int max = 0;    
         foreach( Collider collider in keyValuePairs.Keys ) {
             //Debug.Log(collider.name);
             int val = keyValuePairs[collider];
+            Debug.Log("val : "+ val);
+                
             if(val > max)
             {
+                Debug.Log("Max Changed : " + val);
                 max = val;
                 maximumCollided = collider;
             }
