@@ -13,6 +13,7 @@ public abstract class Card : MonoBehaviour
     private Vector3 initialPos;
     private Vector3 initialLocalRot;
 
+    protected bool isMagicCard = false;
     public enum CardType
     {
         Physical, Satire, Wordplay
