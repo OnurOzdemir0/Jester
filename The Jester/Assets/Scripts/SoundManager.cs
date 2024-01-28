@@ -9,8 +9,11 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip[] toparlicamClips;
     [SerializeField] private AudioClip kusuraBakmayinClip; // Play when one health is left
     [SerializeField] private AudioClip[] kingLaughClips;
+    [SerializeField] private AudioClip[] kingMadClips;
+
     [SerializeField] private AudioClip kingLaughDeathClip;
     [SerializeField] private AudioClip cardPullClip;
+    [SerializeField] private AudioClip clockTick;
 
     private AudioSource audioSource;
 
@@ -48,6 +51,11 @@ public class SoundManager : MonoBehaviour
         PlayRandomSound(kingLaughClips);
     }
 
+    public void PlayRandomKingMadSound()
+    {
+        PlayRandomSound(kingMadClips);
+    }
+
     public void PlayKingLaughDeathSound()
     {
         audioSource.PlayOneShot(kingLaughDeathClip);
@@ -57,6 +65,12 @@ public class SoundManager : MonoBehaviour
     {
         audioSource.PlayOneShot(cardPullClip);
     }
+    public void PlayClockTick()
+    {
+        audioSource.PlayOneShot(clockTick);
+    }
+
+    
 
     private void PlayRandomSound(AudioClip[] clips)
     {

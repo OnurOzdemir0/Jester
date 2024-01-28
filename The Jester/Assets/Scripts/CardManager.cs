@@ -47,6 +47,7 @@ public class CardManager : MonoBehaviour
     private void AddCard(Card card){
         cards.Add(card);
         Debug.Log("CARD MANAGER DEBUG :: ADDING CARD : " + card.name);
+        SoundManager.soundManager.PlayCardPullSound();
         ResizeHand();
            
     }

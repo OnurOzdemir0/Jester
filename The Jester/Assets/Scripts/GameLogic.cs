@@ -116,7 +116,7 @@ public class GameLogic : MonoBehaviour
             clockCollider.enabled = false;
             clockPivot.DOLocalRotate(nextRotation, 0.1f).onComplete = () => { clockCollider.enabled = true; };
         }
-        
+        SoundManager.soundManager.PlayClockTick();
     }
    
     public void NextTour()
@@ -145,6 +145,7 @@ public class GameLogic : MonoBehaviour
     }
     private void WinGame()
     {
+        SoundManager.soundManager.PlayKingLaughDeathSound();
         Debug.Log("Won  the game");
     }
 
@@ -287,6 +288,7 @@ public class GameLogic : MonoBehaviour
         {
             WinGame();
         }
+        SoundManager.soundManager.PlayRandomKingLaughSound();
     }
     private void DamageToPlayer(int damage)
     {
@@ -301,12 +303,15 @@ public class GameLogic : MonoBehaviour
         {
             Debug.Log("damage dealt by king and you die !");
             playerHealth = 0;
+            SoundManager.soundManager.PlayKusuraBakmayinSound();
             LooseGame();
         }
         else
         {
             Debug.Log("damage dealt by king");
             playerHealth += damage;
+            SoundManager.soundManager.PlayRandomToparlicamSound();
+            SoundManager.soundManager.PlayKingLaughDeathSound();
         }
     }
 
