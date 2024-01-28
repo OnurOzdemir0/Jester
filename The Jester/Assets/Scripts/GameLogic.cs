@@ -43,7 +43,7 @@ public class GameLogic : MonoBehaviour
     int generalScore = 0;
     int toureCount = 0;
     int moodBonus = 1;
-    bool canPlayMagicCard = true;
+    public bool canPlayMagicCard = true;
 
 
     //AI
