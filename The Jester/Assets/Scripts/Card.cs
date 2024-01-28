@@ -12,6 +12,8 @@ public abstract class Card : MonoBehaviour, IInteractable
     protected bool isPlayed = false;
    
     private Vector3 initialScale;
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
     [SerializeField]
     public bool isMagicCard = false;
   
@@ -49,8 +51,8 @@ public abstract class Card : MonoBehaviour, IInteractable
             if(!isHighlighted)
             {
                 isHighlighted = true;
-                material.SetFloat("_emission_strength", .8f);
-                transform.localPosition += transform.forward;
+                material.SetFloat("_emission_strength", .2f);
+                transform.position += Vector3.forward;
                 transform.DOScale(initialScale * 1.2f, 0.1f);
                 Debug.Log("CARD::DEBUG :: SCALE MOVED TO : " + initialScale * 1.2f);
 
@@ -71,7 +73,7 @@ public abstract class Card : MonoBehaviour, IInteractable
             {   
                 isHighlighted = false;
                 material.SetFloat("_emission_strength",0.0f);
-                transform.localPosition -= transform.forward;
+                transform.position -= Vector3.forward;
                 transform.DOScale(initialScale, 0.1f).onComplete =()=> { if(this)   resetCardRotation(); };
                 Debug.Log("CARD::DEBUG :: SCALE MOVED TO : " + initialScale );
                 /*
@@ -96,14 +98,25 @@ public abstract class Card : MonoBehaviour, IInteractable
             
             case FaceDir.BackFace:
                 faceDir = FaceDir.FrontFace;
-                transform.DOLocalRotate(new Vector3(0, -180, 90), 0.5f); break;
+                // Get the current rotation of the plane
+                Quaternion currentRotation = transform.rotation;
+
+                // Calculate the new rotated quaternion by horizontally flipping (180 degrees around the forward axis)
+                Quaternion targetRotation = currentRotation * Quaternion.AngleAxis(180f, Vector3.forward);
+
+                // Use DOTween to smoothly rotate the plane to the new rotation
+                transform.DORotateQuaternion(targetRotation, 0.2f)
+                    .SetEase(Ease.OutQuad); // You can change the ease type as per your preference
                 // reverse
+                break;
         }
     }
     public void Move(Transform t)
     {   
         GetComponent<Collider>().enabled = false;
         transform.localRotation = t.localRotation;
+        initialPosition = t.localPosition;
+        initialRotation = t.localRotation;
         transform.DOLocalMove(t.localPosition, 0.1f).onComplete = ()=> { GetComponent<Collider>().enabled = true; };
     }
     public void reverseCard()
@@ -115,17 +128,39 @@ public abstract class Card : MonoBehaviour, IInteractable
             switch (faceDir)
             {
                 case FaceDir.FrontFace:
+
                     faceDir = FaceDir.BackFace;
                     isAnimating  = true;
-                    transform.DOLocalRotate( new Vector3(0,180,90) , 0.5f).onComplete = ()=> { isAnimating = false; }; break;
-                    // reverse
-               
+                    // Get the current rotation of the plane
+                    // Get the current rotation of the plane
+                    Quaternion currentRotation = transform.rotation;
+
+                    // Calculate the new rotated quaternion by horizontally flipping (180 degrees around the forward axis)
+                    Quaternion targetRotation = currentRotation * Quaternion.AngleAxis(180f, Vector3.forward);
+
+                    // Use DOTween to smoothly rotate the plane to the new rotation
+                    transform.DORotateQuaternion(targetRotation, 0.2f)
+                        .SetEase(Ease.OutQuad); // You can change the ease type as per your preference
+                    break;
+
 
                 case FaceDir.BackFace:
                     faceDir = FaceDir.FrontFace;
                     isAnimating = true;
-                    transform.DOLocalRotate(new Vector3(0, -180, 90), 0.5f).onComplete = () => { isAnimating = false; }; break;
-                    // reverse
+                    faceDir = FaceDir.BackFace;
+                    isAnimating = true;
+                    // Get the current rotation of the plane
+                    // Get the current rotation of the plane
+                    Quaternion currentRotation_ = transform.rotation;
+
+                    // Calculate the new rotated quaternion by horizontally flipping (180 degrees around the forward axis)
+                    Quaternion targetRotation_ = currentRotation_ * Quaternion.AngleAxis(180f, Vector3.forward);
+
+                    // Use DOTween to smoothly rotate the plane to the new rotation
+                    transform.DORotateQuaternion(targetRotation_, 0.2f)
+                        .SetEase(Ease.OutQuad); // You can change the ease type as per your preference
+
+                    break;
             }
         }
     }
