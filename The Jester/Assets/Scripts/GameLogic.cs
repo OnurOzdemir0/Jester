@@ -19,6 +19,7 @@ public class GameLogic : MonoBehaviour
     int moodBonus = 1;
     bool canPlayMagicCard = true;
     bool isBarrierActive = false;
+    public bool canReveal = true;
     public struct KingMood
     {
         public int mood;
@@ -26,16 +27,8 @@ public class GameLogic : MonoBehaviour
         public bool isRevealed;
         // maybe add type ? 
 
-        public void setMood(int mood)
-        {
-            if (fixedTourCount == 0)
-            {
-                fixedTourCount = 2;
-                this.mood = mood;
-            }
-
-
-        }
+      
+      
 
     }
 
@@ -47,6 +40,10 @@ public class GameLogic : MonoBehaviour
     private KingMood phyMood = new KingMood { mood = 0, fixedTourCount = 0, isRevealed = false };
     private KingMood satMood = new KingMood { mood = 0, fixedTourCount = 0, isRevealed = false };
     private KingMood wrdMood = new KingMood { mood = 0, fixedTourCount = 0, isRevealed = false };
+
+    [SerializeField] MoodCard phyCard;
+    [SerializeField] MoodCard satCard;
+    [SerializeField] MoodCard wrdCard;
 
     public KingMood m_phyMood  {get { return phyMood; } }
     public KingMood m_satMood { get { return satMood; } }
@@ -133,6 +130,11 @@ public class GameLogic : MonoBehaviour
         tourScore = 0;
         moodBonus = 1;
         canPlayMagicCard = true;
+        canReveal = true;
+        phyMood.fixedTourCount--;
+        satMood.fixedTourCount--;
+        wrdMood.fixedTourCount--;
+        
         UpdateMood();
         CardManager.instance.FillHand();
     }
@@ -150,19 +152,70 @@ public class GameLogic : MonoBehaviour
         int selection = Random.Range(0, 3);
 
         switch (selection)
-        {
-            case 0: phyMood.setMood(1);
-                    satMood.setMood(Random.Range(-1, 1));
-                    wrdMood.setMood(Random.Range(-1, 1));
+        {   
+            case 0:
+                if (phyMood.fixedTourCount == 0)
+                {
+                    phyMood.mood = 1;
+                    phyMood.fixedTourCount = 2;
+                    phyCard.Reset();
+                }
+                if (satMood.fixedTourCount == 0)
+                {
+                    satMood.mood  = (Random.Range(-1, 1));
+                    satMood.fixedTourCount = 2;
+                    satCard.Reset();
+                }
+                if(wrdMood.fixedTourCount == 0)
+                {
+                    wrdMood.mood = (Random.Range(-1, 1));
+                    wrdMood.fixedTourCount = 2;
+                    wrdCard.Reset();
+                }
+
                     
                     break;
-            case 1: satMood.setMood(1);
-                    phyMood.setMood(Random.Range(-1, 1));
-                    wrdMood.setMood(Random.Range(-1, 1)); 
+            case 1:
+                if (phyMood.fixedTourCount == 0)
+                {
+                    phyMood.mood = (Random.Range(-1, 1));
+                    phyMood.fixedTourCount = 2;
+                    phyCard.Reset();
+                }
+                if (satMood.fixedTourCount == 0)
+                {
+                    satMood.mood = 1;
+                    satMood.fixedTourCount = 2;
+                    satCard.Reset();
+                }
+                if (wrdMood.fixedTourCount == 0)
+                {
+                    wrdMood.mood = (Random.Range(-1, 1));
+                    wrdMood.fixedTourCount = 2;
+                    wrdCard.Reset();
+                }
+               
                     break;
-            case 2: wrdMood.setMood(1);
-                    phyMood.setMood(Random.Range(-1, 1));
-                    satMood.setMood(Random.Range(-1, 1)); 
+            case 2:
+                if (phyMood.fixedTourCount == 0)
+                {
+                    phyMood.mood = (Random.Range(-1, 1));
+                    phyMood.fixedTourCount = 2;
+                    phyCard.Reset();
+                }
+                if (satMood.fixedTourCount == 0)
+                {
+                    satMood.mood = (Random.Range(-1, 1));
+                    satMood.fixedTourCount = 2;
+                    satCard.Reset();
+                }
+                if (wrdMood.fixedTourCount == 0)
+                {
+                    wrdMood.mood = 1;
+                    wrdMood.fixedTourCount = 2;
+                    satCard.Reset();
+                }
+               
                     break;
         }
         Debug.Log("phymood : " + phyMood.mood);
@@ -279,6 +332,7 @@ public class GameLogic : MonoBehaviour
             case MoodType.PHY:
                 if (!phyMood.isRevealed)
                 {
+                    phyCard.ForceReveal(MoodType.PHY);
                     phyMood.isRevealed = true;
                     Debug.Log("phyMood revealed");
                     return true;
@@ -287,6 +341,7 @@ public class GameLogic : MonoBehaviour
             case MoodType.SAT:
                 if (!satMood.isRevealed)
                 {
+                    phyCard.ForceReveal(MoodType.SAT);
                     satMood.isRevealed = true;
                     Debug.Log("satMood revealed");
                     return true;
@@ -295,7 +350,7 @@ public class GameLogic : MonoBehaviour
             case MoodType.WORD:
                 if (!wrdMood.isRevealed)
                 {
-
+                    phyCard.ForceReveal(MoodType.WORD);
                     wrdMood.isRevealed = true;
                     Debug.Log("wrdMood revealed");
                     return true;
@@ -371,7 +426,8 @@ public class GameLogic : MonoBehaviour
             case 0:
                 if (!phyMood.isRevealed)
                 {
-                    unRevealeds.Add(0);
+                    phyCard.ForceReveal(MoodType.PHY);
+                    phyMood.isRevealed = true;
                     Debug.Log("phyMood Randomly  revealed ");
                     return true;
                 }
@@ -380,7 +436,8 @@ public class GameLogic : MonoBehaviour
             case 1:
                 if (!satMood.isRevealed)
                 {
-                    unRevealeds.Add(1);
+                    satCard.ForceReveal(MoodType.SAT);
+                    satMood.isRevealed = true;
                     Debug.Log("satMood Randomly  revealed ");
                     return true;
                 }
@@ -388,7 +445,8 @@ public class GameLogic : MonoBehaviour
             case 2:
                 if (!wrdMood.isRevealed)
                 {
-                    unRevealeds.Add(2);
+                    wrdCard.ForceReveal(MoodType.WORD);
+                    wrdMood.isRevealed = true;
                     Debug.Log("wrdMood Randomly  revealed ");
                     return true; 
                 }
