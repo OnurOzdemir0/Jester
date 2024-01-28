@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class FixOneMoodCard : Card
 {
-    private void Awake()
-    {
-        this.isMagicCard = true;
-    }
+ 
     public override void playCard()
     {
        

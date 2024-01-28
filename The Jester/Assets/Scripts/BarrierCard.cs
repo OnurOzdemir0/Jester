@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class BarrierCard : Card
 {
-    private void Awake()
-    {
-        this.isMagicCard = true;
-    }
+   
     public override void playCard()
     {
     

@@ -100,7 +100,7 @@ public class CharacterController_ : MonoBehaviour
         {
             if(currentInteractable != null)
             {
-                currentInteractable.OnPressLeftClick();
+                currentInteractable.OnPressRightClick();
             }
         }
 
@@ -164,7 +164,7 @@ public class CharacterController_ : MonoBehaviour
         Collider maximumCollided = null;
         int max = 0;
         foreach( Collider collider in keyValuePairs.Keys ) {
-
+            //Debug.Log(collider.name);
             int val = keyValuePairs[collider];
             if(val > max)
             {

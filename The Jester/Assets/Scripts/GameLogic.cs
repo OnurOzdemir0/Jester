@@ -9,6 +9,9 @@ public class GameLogic : MonoBehaviour
 {
     public static GameLogic instance { get; private set; }
 
+    [SerializeField] private Transform playerTransform_;
+
+    public Transform playerTransform { get { return playerTransform_; } }
     int playerHealth = 3;
     int tourScore = 0;
     int generalScore = 0;
@@ -93,6 +96,7 @@ public class GameLogic : MonoBehaviour
         isBarrierActive = false;
         InitClock();
         UpdateMood();
+        CardManager.instance.SetupDeck();
 
     }
     private void InitClock()
@@ -129,8 +133,8 @@ public class GameLogic : MonoBehaviour
         tourScore = 0;
         moodBonus = 1;
         canPlayMagicCard = true;
-
         UpdateMood();
+        CardManager.instance.FillHand();
     }
 
     private void LooseGame()

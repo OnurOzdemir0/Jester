@@ -10,16 +10,11 @@ public abstract class Card : MonoBehaviour, IInteractable
 {
     private bool isHighlighted = false;
     protected bool isPlayed = false;
-    private Vector3 initialPos;
-    private Vector3 initialLocalRot;
-
-    protected bool isMagicCard = false;
-    public enum CardType
-    {
-        Physical, Satire, Wordplay
-    }
-    public CardType cardType;
-
+   
+    private Vector3 initialScale;
+    [SerializeField]
+    public bool isMagicCard = false;
+  
     private Material material;
 
     
@@ -29,39 +24,61 @@ public abstract class Card : MonoBehaviour, IInteractable
     }
     private FaceDir faceDir;
 
-    private void Start()
+    bool isAnimating = false;
+    protected void Awake()
     {
-        initialPos = transform.position;
-        initialLocalRot = transform.localRotation.eulerAngles;
-        material = GetComponent<Material>();
+        GetComponent<Collider>().enabled = false;
+        Debug.Log(GetComponent<Collider>());
+        initialScale = transform.localScale;
+        material = GetComponent<Renderer>().material;
+      
     }
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         // tween it 
     }
 
 
+    
+
     private  void highlightCard(bool isTrue)
     {
         if(isTrue)
         {
+            
             if(!isHighlighted)
             {
                 isHighlighted = true;
-                transform.position = new Vector3 (transform.position.x, transform.position.y, initialPos.z+2f);
-                transform.DOMove(new Vector3(transform.position.x, initialPos.y + 1, transform.position.z), 0.5f);
-                
+                material.SetFloat("_emission_strength", .8f);
+                transform.localPosition += transform.forward;
+                transform.DOScale(initialScale * 1.2f, 0.1f);
+                Debug.Log("CARD::DEBUG :: SCALE MOVED TO : " + initialScale * 1.2f);
+
+               /*
+                transform.localPosition = new Vector3 (transform.localPosition.x, transform.localPosition.y, initialPos.z+1f);
+                Debug.Log(transform.position);
+                isAnimating = true;
+                transform.DOLocalMove(new Vector3(transform.localPosition.x, initialPos.y + 1, transform.localPosition.z), 0.5f);
+                */
 
 
             }
+            
         }
         else
         {
             if(isHighlighted)
             {   
                 isHighlighted = false;
-                transform.position = new Vector3(transform.position.x, transform.position.y,initialPos.z);
-                transform.DOMove(new Vector3(transform.position.x, initialPos.y, transform.position.z), 0.5f).onComplete = resetCardRotation;
+                material.SetFloat("_emission_strength",0.0f);
+                transform.localPosition -= transform.forward;
+                transform.DOScale(initialScale, 0.1f).onComplete =()=> { if(this)   resetCardRotation(); };
+                Debug.Log("CARD::DEBUG :: SCALE MOVED TO : " + initialScale );
+                /*
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y,initialPos.z);
+                transform.DOLocalMove(new Vector3(transform.localPosition.x, initialPos.y, transform.localPosition.z), 0.5f).onComplete = resetCardRotation;
+                */
+
             }
            
 
@@ -70,6 +87,8 @@ public abstract class Card : MonoBehaviour, IInteractable
         }
         // card highlight is same in every card
     }
+
+ 
     private void resetCardRotation()
     {
         switch (faceDir)
@@ -77,24 +96,37 @@ public abstract class Card : MonoBehaviour, IInteractable
             
             case FaceDir.BackFace:
                 faceDir = FaceDir.FrontFace;
-                transform.DOLocalRotate(new Vector3(transform.localRotation.eulerAngles.x, initialLocalRot.y, transform.localRotation.eulerAngles.z), 0.5f); break;
+                transform.DOLocalRotate(new Vector3(0, -180, 90), 0.5f); break;
                 // reverse
         }
     }
+    public void Move(Transform t)
+    {   
+        GetComponent<Collider>().enabled = false;
+        transform.localRotation = t.localRotation;
+        transform.DOLocalMove(t.localPosition, 0.1f).onComplete = ()=> { GetComponent<Collider>().enabled = true; };
+    }
     public void reverseCard()
     {
-        switch (faceDir)
+        if (!isAnimating)
         {
-            case FaceDir.FrontFace:
-                faceDir = FaceDir.BackFace;
-                transform.DOLocalRotate(new Vector3(transform.localRotation.eulerAngles.x, 0, transform.localRotation.eulerAngles.z), 0.5f); break;
-                // reverse
+
+       
+            switch (faceDir)
+            {
+                case FaceDir.FrontFace:
+                    faceDir = FaceDir.BackFace;
+                    isAnimating  = true;
+                    transform.DOLocalRotate( new Vector3(0,180,90) , 0.5f).onComplete = ()=> { isAnimating = false; }; break;
+                    // reverse
                
 
-            case FaceDir.BackFace:
-                faceDir = FaceDir.FrontFace;
-                transform.DOLocalRotate(new Vector3(transform.localRotation.eulerAngles.x, initialLocalRot.y, transform.localRotation.eulerAngles.z), 0.5f); break;
-                // reverse
+                case FaceDir.BackFace:
+                    faceDir = FaceDir.FrontFace;
+                    isAnimating = true;
+                    transform.DOLocalRotate(new Vector3(0, -180, 90), 0.5f).onComplete = () => { isAnimating = false; }; break;
+                    // reverse
+            }
         }
     }
     public abstract void playCard();

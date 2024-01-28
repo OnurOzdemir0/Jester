@@ -130,4 +130,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9edc6c0f041e5c4f944f13873c77bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMagicCard: 1
   cardType: 0
